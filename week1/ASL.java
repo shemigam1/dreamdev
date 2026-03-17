@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.lang.Math;
 
-public class Arithmetic{
+public class ASL{
   public static void main(String[] args){
     Scanner input = new Scanner(System.in);
 
