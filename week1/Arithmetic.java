@@ -7,6 +7,7 @@ public class Arithmetic{
 
     System.out.println("Input your number");
     int num1 = input.nextInt();
+    System.out.println("Input your number");
     int num2 = input.nextInt();
     double power1 = Math.pow(num1, 2);
     double power2 = Math.pow(num2, 2);
