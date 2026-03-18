@@ -244,18 +244,47 @@ public class Nokia{
             }
           }
 
-          case 7 -> {
-            String phonePrompt = """
-                      Press 1 -> Message centre number
-                      Press 2 -> Message sent as
-                      Press 3 -> Message validity
+          case 2 -> {
+            String callPrompt = """
+                      Press 1 -> Language
+                      Press 2 -> Cell info display
+                      Press 3 -> Welcome note
+                      Press 4 -> Network selection
+                      Press 5 -> Lights
+                      Press 6 -> Confirm SIM service actions
+                      Press 0 -> Go back
                     """;
-            System.out.println(phonePrompt);
-            int settings = scanner.nextInt();
-            switch (settings) {
-              case 1 -> System.out.println("Message centre number");
-              case 2 -> System.out.println("Message sent as");
-              case 3 -> System.out.println("Message validity");
+            System.out.println(callPrompt);
+            int phoneSettings = scanner.nextInt();
+            switch (phoneSettings) {
+              case 1 -> System.out.println("Language");
+              case 2 -> System.out.println("Cell info display");
+              case 3 -> System.out.println("Welcome note");
+              case 4 -> System.out.println("Network Selection");
+              case 5 -> System.out.println("Lights");
+              case 6 -> System.out.println("Confirm SIM service actions");
+            }
+          }
+
+          case 3 -> {
+            String callPrompt = """
+                      Press 1 -> PIN code request
+                      Press 2 -> Call barring service
+                      Press 3 -> Fixed dialling
+                      Press 4 -> Closed user group
+                      Press 5 -> Phone security
+                      Press 6 -> Change access codes
+                      Press 0 -> Go back
+                    """;
+            System.out.println(callPrompt);
+            int securitySettings = scanner.nextInt();
+            switch (securitySettings) {
+              case 1 -> System.out.println("PIN code request");
+              case 2 -> System.out.println("Call barring service");
+              case 3 -> System.out.println("Fixed dialling");
+              case 4 -> System.out.println("Closed user group");
+              case 5 -> System.out.println("Phone security");
+              case 6 -> System.out.println("Change access codes");
             }
           }
         }
@@ -264,7 +293,27 @@ public class Nokia{
       case 8-> System.out.println("Games");
       case 9-> System.out.println("Calculator");
       case 10-> System.out.println("Reminders");
-      //case 11-> Clock();
+      case 11-> {
+        String clockPrompt = """
+                      Press 1 -> Alarm clock
+                      Press 2 -> Clock settings
+                      Press 3 -> Date setting
+                      Press 4 -> Stopwatch
+                      Press 5 -> Countdown timer
+                      Press 6 -> Auto update of date and time
+                      Press 0 -> Go back
+                    """;
+        System.out.println(clockPrompt);
+        int clockSettings = scanner.nextInt();
+        switch (clockSettings) {
+          case 1 -> System.out.println("Alarm clock");
+          case 2 -> System.out.println("CClock settings");
+          case 3 -> System.out.println("Date setting");
+          case 4 -> System.out.println("Stopwatch");
+          case 5 -> System.out.println("Countdown timer");
+          case 6 -> System.out.println("Auto update of date and time");
+        }
+      }
       case 12-> System.out.println("Profiles");
       case 13-> System.out.println("SIM Services");
     }
