@@ -52,6 +52,7 @@ public class Nokia{
                 Press 10 -> Voice tags
                 Press 0 -> Go back
                 """;
+        System.out.println(phonePrompt);
         int phoneBook = scanner.nextInt();
         switch (phoneBook) {
           case 1 -> System.out.println("Search");
@@ -128,6 +129,7 @@ public class Nokia{
                 Press 8 -> Prepaid credit
                 Press 0 -> Go back
                 """;
+        System.out.println(callRegisterPrompt);
         int phoneBook = scanner.nextInt();
         switch (phoneBook) {
           case 1 -> System.out.println("Missed calls");
@@ -197,6 +199,7 @@ public class Nokia{
               Press 9 -> Screen saver
               Press 0 -> Go back
               """;
+        System.out.println(tonePrompt);
       int phoneBook = scanner.nextInt();
       switch (phoneBook) {
         case 1 -> System.out.println("Ringing tone");
