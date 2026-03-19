@@ -1,3 +1,4 @@
+package week1.fireDrillTwo;
 import java.util.Scanner;
 
 public class W2Task8 {
@@ -8,7 +9,7 @@ public class W2Task8 {
     int sum = 0;
     for (;counter <= 10; counter++){
       int num1 = scanner.nextInt();
-      if ((num1) % 2 == 0 && (num >= 0 || num <= 100)){
+      if ((num1) % 2 == 0 && (num1 >= 0 || num1 <= 100)){
         sum += num1;
       }
     }
