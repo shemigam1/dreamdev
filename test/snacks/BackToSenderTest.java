@@ -26,9 +26,21 @@ public class BackToSenderTest {
     }
 
     @Test
-    @DisplayName("Function should return correct value of < 60")
+    @DisplayName("Function should return correct value of < 60 >= 50")
     public void lessThanSixty(){
-        assertEquals(17000, payroll.payout(59));
+        assertEquals(16800, payroll.payout(59));
+    }
+
+    @Test
+    @DisplayName("Function should return correct value of < 70 >= 60")
+    public void lessThanSeventy(){
+        assertEquals(22250, payroll.payout(69));
+    }
+
+    @Test
+    @DisplayName("Function should return correct value of >= 70")
+    public void moreThanSeventy(){
+        assertEquals(40500, payroll.payout(71));
     }
 
 
