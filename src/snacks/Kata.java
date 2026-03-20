@@ -14,4 +14,8 @@ public class Kata {
         }
         return true;
     }
+
+    public static int subtract(int num1, int num2){
+        return Math.abs(num1 - num2);
+    }
 }
