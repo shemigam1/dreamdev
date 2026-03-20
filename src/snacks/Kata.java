@@ -1,5 +1,7 @@
 package snacks;
 
+import java.util.Objects;
+
 public class Kata {
     public static boolean isEven(int number){
         if (number % 2 == 0) return true;
@@ -36,5 +38,18 @@ public class Kata {
         if (number == 0) return false;
         int root = (int) Math.sqrt(number);
         return (root * root) == number;
+    }
+
+    public static boolean isPalindrome(int number){
+        String num = String.valueOf(number);
+        String[] arr = num.split("");
+        int left = 0;
+        int right = arr.length - 1;
+        while (left < right){
+            if (!Objects.equals(arr[left], arr[right])) return false;
+            left++;
+            right--;
+        }
+        return true;
     }
 }
