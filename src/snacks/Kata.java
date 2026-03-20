@@ -57,4 +57,8 @@ public class Kata {
         if (number <= 1) return 1;
         return number * factorial(number - 1);
     }
+
+    public static long squareOf(int number){
+        return (long) number * number;
+    }
 }
