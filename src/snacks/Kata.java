@@ -31,4 +31,10 @@ public class Kata {
         }
         return factors;
     }
+
+    public static boolean isSquare(int number){
+        if (number == 0) return false;
+        int root = (int) Math.sqrt(number);
+        return (root * root) == number;
+    }
 }
