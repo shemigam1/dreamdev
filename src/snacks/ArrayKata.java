@@ -1,5 +1,7 @@
 package snacks;
 
+import java.util.ArrayList;
+
 public class ArrayKata {
     public static int maximumIn(int[] arrayOfIntegers){
         int max = Integer.MIN_VALUE;
@@ -65,5 +67,32 @@ public class ArrayKata {
             if (num % 2 == 0) sum += 1;
         }
         return sum;
+    }
+
+    public static ArrayList<Integer> evenNumbersIn(int[] arrayOfIntegers){
+        ArrayList<Integer> even = new ArrayList<>();
+        
+        for (int num : arrayOfIntegers){
+            if (num % 2 == 0) even.add(num);
+        }
+        return even;
+    }
+
+    public static ArrayList<Integer> oddNumbersIn(int[] arrayOfIntegers){
+        ArrayList<Integer> odd = new ArrayList<>();
+
+        for (int num : arrayOfIntegers){
+            if (num % 2 != 0) odd.add(num);
+        }
+        return odd;
+    }
+
+    public static ArrayList<Integer> squareNumbersIn(int[] arrayOfIntegers){
+        ArrayList<Integer> square = new ArrayList<>();
+
+        for (int num : arrayOfIntegers){
+            square.add(num*num);
+        }
+        return square;
     }
 }
