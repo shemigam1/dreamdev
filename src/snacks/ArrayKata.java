@@ -24,4 +24,20 @@ public class ArrayKata {
         }
         return sum;
     }
+
+    public static int sumOfEvenNumbersIn(int[] arrayOfIntegers){
+        int sum = 0;
+        for (int num : arrayOfIntegers){
+            if (num % 2 == 0) sum += num;
+        }
+        return sum;
+    }
+
+    public static int sumOfOddNumbersIn(int[] arrayOfIntegers){
+        int sum = 0;
+        for (int num : arrayOfIntegers){
+            if (num % 2 != 0) sum += num;
+        }
+        return sum;
+    }
 }
