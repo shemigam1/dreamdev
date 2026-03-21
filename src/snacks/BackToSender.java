@@ -1,6 +1,16 @@
 package snacks;
 
+import java.util.Scanner;
+
 public class BackToSender {
+
+    public static void main(String... args){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter number of deliveries made");
+        int numOfDeliveries = scanner.nextInt();
+        int payout = payout(numOfDeliveries);
+        System.out.printf("you get %d for making %d deliveries%n", payout, numOfDeliveries);
+    }
 
     public static int payout(int numOfDeliveries){
         int basePay = 5000;
