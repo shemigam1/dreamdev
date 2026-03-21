@@ -32,10 +32,24 @@ public class StudentGrade {
         for (int i = 0; i < totalSubjects; i++){
             header += String.format("%-7s", "SUB" +( i+1));
         }
-        header += String.format("%-5s %-5s %-7s%n", "TOT", "AVE", "POS");
+        header += String.format("%-5s %-7s %7s%n", "TOT", "AVE", "POS");
 
         reportCard += header;
+        reportCard += "============================================";
 
         System.out.println(reportCard);
+
+        String body = "";
+        for (int i = 0; i < totalStudents; i++){
+            String row = "";
+            row += String.format("%Student %d", i);
+            int totalScore = 0;
+            for (int j = 0; j < totalSubjects; j++){
+                row += String.format("%-5s", classRoom[i][j]);
+                totalScore += classRoom[i][j];
+            }
+            int averageScore = totalScore/totalSubjects;
+            body += row;
+        }
     }
 }
