@@ -50,4 +50,20 @@ public class ArrayKata {
         }
         return new int[] {min, max};
     }
+
+    public static int noOfOddNumbersIn(int[] arrayOfIntegers){
+        int sum = 0;
+        for (int num : arrayOfIntegers){
+            if (num % 2 != 0) sum += 1;
+        }
+        return sum;
+    }
+
+    public static int noOfEvenNumbersIn(int[] arrayOfIntegers){
+        int sum = 0;
+        for (int num : arrayOfIntegers){
+            if (num % 2 == 0) sum += 1;
+        }
+        return sum;
+    }
 }
