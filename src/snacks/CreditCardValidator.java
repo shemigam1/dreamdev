@@ -7,7 +7,7 @@ public class CreditCardValidator {
         System.out.println("Hello, kindly enter details to verify");
         Scanner scanner = new Scanner(System.in);
 
-        int cardNumber = scanner.nextInt();
+        String cardNumber = scanner.nextLine().trim();
         String cardType = checkType(cardNumber);
         String isValid = validate(cardNumber);
         int cardDigitLength = String.valueOf(cardNumber).length();
@@ -17,15 +17,15 @@ public class CreditCardValidator {
 
         System.out.println("********************************");
         System.out.printf("***Credit Card Type: %s%n", cardType);
-        System.out.printf("***Credit Card Number: %d%n", cardNumber);
+        System.out.printf("***Credit Card Number: %s%n", cardNumber);
         System.out.printf("***Credit Card Digit Length: %d%n", cardDigitLength);
         System.out.printf("***Credit Card Validity Status: %s%n", isValid);
     }
 
-    public static String checkType(int cardNumber){
-        String cardString = String.valueOf(cardNumber);
+    public static String checkType(String cardString){
 
-        String cardType = "unknown";
+
+        String cardType = "Invalid Card";
         if (cardString.charAt(0) == '4') cardType = "Visa Card";
         if (cardString.charAt(0) == '5') cardType = "MasterCard";
         if (cardString.charAt(0) == '6') cardType = "Discover Card";
@@ -33,23 +33,22 @@ public class CreditCardValidator {
         return cardType;
     }
 
-    public static String validate(int cardNumber){
-        String cardString = String.valueOf(cardNumber);
+    public static String validate(String cardString){
         int even = 0;
         int odd = 0;
 
         for (int i = cardString.length() - 2; i >=0  ; i -= 2){
-            int num = (int) cardString.charAt(i) * 2;
+            int num = Character.getNumericValue(cardString.charAt(i)) * 2;
             if (num > 9){
                 String numString = String.valueOf(num);
-                even += (int) numString.charAt(0) + (int) numString.charAt(1);
+                even += Character.getNumericValue(numString.charAt(0)) + Character.getNumericValue(numString.charAt(1));
                 continue;
             }
             even += num;
         }
 
         for (int j = cardString.length() - 1; j >=0  ; j -= 2){
-            odd += (int) cardString.charAt(j);
+            odd += Character.getNumericValue(cardString.charAt(j));
         }
         boolean isValid = (odd + even) % 10 == 0;
         if (isValid) return "Valid";
