@@ -40,4 +40,14 @@ public class ArrayKata {
         }
         return sum;
     }
+
+    public static int[] maximumAndMinimumOf(int[] arrayOfIntegers){
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        for (int num : arrayOfIntegers){
+            if (num < min) min = num;
+            if (num > max) max = num;
+        }
+        return new int[] {min, max};
+    }
 }
