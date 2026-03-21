@@ -9,8 +9,9 @@ public class CheckOutApp {
 
         System.out.println("What is the customer's name?");
         String customerName = scanner.nextLine();
-        String cashierName;
-        double discount;
+        String cashierName = "";
+        double amountPaid = 0;
+        double discount = 0;
         ArrayList<String> productList = new ArrayList<>();
         ArrayList<Integer> unitsList = new ArrayList<>();
         ArrayList<Integer> pricesList = new ArrayList<>();
@@ -45,16 +46,16 @@ public class CheckOutApp {
         System.out.println(productList);
         System.out.println(unitsList);
 
-        String preReceipt = """
+        String receiptHeader = """
                 SEMICOLON STORES
                 MAIN BRANCH
                 LOCATION: 312, HERBERT MACAULAY, SABO YABA, LAGOS.
                 TEL: 0328838828229
                 Date: 18-Dec-22 8:48:11 pm
                 """;
-        preReceipt += String.format("Cashier Name: %s", cashierName);
-        preReceipt += String.format("Customer Name: %s", customerName);
-        preReceipt += """
+        receiptHeader += String.format("Cashier Name: %s%n", cashierName);
+        receiptHeader += String.format("Customer Name: %s%n", customerName);
+        receiptHeader += """
                 ===================================================
                 ITEM   QTY   PRICE   TOTAL(NGN)
                 ---------------------------------------------------
@@ -62,29 +63,55 @@ public class CheckOutApp {
 
         String prices = "";
         for (int i = 0; i < productList.size(); i++) {
-            prices += String.format("           %s       %d    %.2f     %.2f%n", productList.get(i),
+            prices += String.format("%s       %d    %.2f     %.2f%n", productList.get(i),
                     unitsList.get(i), (float) pricesList.get(i), (float) unitsList.get(i) * pricesList.get(i));
         }
 
         double subTotal = 0;
-        for (int i = 0; i < productList.size(); i++){
-
+        for (int i = 0; i < unitsList.size(); i++){
+            subTotal += (double)(unitsList.get(i) * pricesList.get(i));
         }
+        discount = (discount/100) * subTotal;
+        double vat = 0.175 * subTotal;
+        double billTotal = subTotal + vat - discount;
 
-        String postReceipt = """
-                 ---------------------------------------------------
-                                   Sub Total:        %f
-                                    Discount:        %f
-                                VAT @ 17.50%:        %f
+
+        String postReceiptTemplate = """
+             ---------------------------------------------------
+                                   Sub Total:        %.2f
+                                    Discount:        %.2f
+                                VAT @ 17.50%%:        %.2f
+             ===================================================
+                                  Bill Total:        %.2f
+             """;
+        String footerPre = """
                 ===================================================
-                                  Bill Total:        %f
-                                 Amount Paid:        %f
-                                     Balance:        %f
+                THIS IS NOT A RECEIPT KINDLY PAY %.2f
                 ===================================================
-                          THANK YOU FOR SHOPPING WITH US
                 """;
+        String postReceipt = String.format(postReceiptTemplate, subTotal, discount, vat, billTotal);
+        String preReceipt = receiptHeader + prices + postReceipt + String.format(footerPre, billTotal);
+        System.out.println(preReceipt);
 
-        String receipt = preReceipt + prices + postReceipt;
+        System.out.println("How much did the customer give to you?");
+        double cashPaid = scanner.nextDouble();
+        if (cashPaid < billTotal){
+            System.out.printf("cash paid %f cannot cover total bill %f%n", cashPaid, billTotal);
+            return;
+        }
+        double balance = cashPaid - billTotal;
+
+        String footerPostTemplate = """
+                                 Amount Paid:    %.2f
+                                 Balance:        %.2f
+             ===================================================
+                        THANK YOU FOR SHOPPING WITH US
+             """;
+
+        String footerPost = postReceipt + String.format(footerPostTemplate, cashPaid, balance);
+
+        String receipt = receiptHeader + prices +footerPost;
+
         System.out.println(receipt);
     }
 }
