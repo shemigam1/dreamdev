@@ -108,9 +108,9 @@ public class CheckOutApp {
                         THANK YOU FOR SHOPPING WITH US
              """;
 
-        String footerPost = postReceipt + String.format(footerPostTemplate, cashPaid, balance);
+        String footerPost = String.format(footerPostTemplate, cashPaid, balance);
 
-        String receipt = receiptHeader + prices +footerPost;
+        String receipt = receiptHeader + prices + postReceipt + footerPost;
 
         System.out.println(receipt);
     }
