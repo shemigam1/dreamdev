@@ -29,5 +29,29 @@ public class CheckOutApp {
 
         System.out.println(productList);
         System.out.println(unitsList);
+
+        String preReceipt = """
+                SEMICOLON STORES
+                MAIN BRANCH
+                LOCATION: 312, HERBERT MACAULAY, SABO YABA, LAGOS.
+                TEL: 0328838828229
+                Date: 18-Dec-22 8:48:11 pm
+                Cashier: Tosin Eniolorunda
+                Customer Name: Semilore
+                ===================================================
+                              ITEM   QTY   PRICE   TOTAL(NGN)
+                ---------------------------------------------------
+                           %s       %d       %f      %f
+                ---------------------------------------------------
+                                   Sub Total:        %f
+                                    Discount:        %f
+                                VAT @ 17.50%:        %f
+                ===================================================
+                                  Bill Total:        %f
+                                 Amount Paid:        %f
+                                     Balance:        %f
+                ===================================================
+                          THANK YOU FOR SHOPPING WITH US
+                """
     }
 }
