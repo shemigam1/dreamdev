@@ -12,7 +12,7 @@ public class PizzaWahala {
         int guests = scanner.nextInt();
 
         String typePrompt = """
-                Enter the Type of Pizza you wat to buy
+                Enter the Type of Pizza you want to buy
                 Press 1 -> Sapa Size (4 slices)
                 Press 2 -> Small Money (6 slices)
                 Press 3 -> Big Boys (8 slices)
@@ -20,6 +20,16 @@ public class PizzaWahala {
                 """;
         System.out.println(typePrompt);
         int type = scanner.nextInt();
+
+        int slices = 0;
+        switch (type) {
+            case 1 -> slices = 4;
+            case 2 -> slices = 6;
+            case 3 -> slices = 8;
+            case 4-> slices = 12;
+
+        }
+        int boxes = Math.ceilDiv(guests, slices);
 
     }
 }
