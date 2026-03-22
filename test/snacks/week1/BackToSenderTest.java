@@ -37,6 +37,6 @@ public class BackToSenderTest {
     }
 
 
-
-
+    public static class KataTest {
+    }
 }
