@@ -1,6 +1,5 @@
 package snacks;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class StudentGrade {
@@ -18,7 +17,13 @@ public class StudentGrade {
             for (int j = 0; j < totalSubjects; j++){
                 System.out.printf("Entering score for student %d%n", i + 1);
                 System.out.printf("Entering score for subject %d%n", j + 1);
-                int score = scanner.nextInt();
+                int score;
+                do {
+                    score = scanner.nextInt();
+                    if (score < 0 || score > 100) {
+                        System.out.println("Invalid score! Please enter a score between 0 and 100");
+                    }
+                } while (score < 0 || score > 100);
                 System.out.println("Saving >>>>>>>>>>>>>>>>>>>>>>>>>");
                 System.out.println("Saved successfully");
                 classRoom[i][j] = score;
@@ -37,8 +42,8 @@ public class StudentGrade {
 
         for (int i = 0; i < totalStudents; i++) {
             int rank = 1;
-            for (int j = 0; j < totalScores.length; j++) {
-                if (totalScores[j] > totalScores[i]) rank++;
+            for (int totalScore : totalScores) {
+                if (totalScore > totalScores[i]) rank++;
             }
             positions[i] = rank;
         }
