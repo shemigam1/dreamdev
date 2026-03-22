@@ -96,7 +96,7 @@ public class CheckOutApp {
         System.out.println("How much did the customer give to you?");
         double cashPaid = scanner.nextDouble();
         if (cashPaid < billTotal){
-            System.out.printf("cash paid %f cannot cover total bill %f%n", cashPaid, billTotal);
+            System.out.printf("cash paid %.2f cannot cover total bill %.2f%n", cashPaid, billTotal);
             return;
         }
         double balance = cashPaid - billTotal;

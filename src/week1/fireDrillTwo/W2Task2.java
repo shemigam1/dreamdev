@@ -1,3 +1,5 @@
+package week1.fireDrillTwo;
+
 import java.util.Scanner;
 
 public class W2Task2 {
