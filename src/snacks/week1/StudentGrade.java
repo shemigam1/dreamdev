@@ -66,10 +66,10 @@ public class StudentGrade {
         for (int i = 0; i < totalStudents; i++){
             String row = "";
             row += String.format("Student %d", i + 1);
-//            int totalScore = 0;
+
             for (int j = 0; j < totalSubjects; j++){
                 row += String.format("%5s", classRoom[i][j]);
-//                totalScore += classRoom[i][j];
+
             }
             row += String.format("%6d", totalScores[i]);
             double averageScore = (double) totalScores[i]/totalSubjects;
@@ -77,7 +77,7 @@ public class StudentGrade {
             row += String.format("%7d%n", positions[i]);
             body += row;
         }
-//        System.out.println(body);
+
 
         body += "============================================";
         body += "============================================\n";
@@ -107,7 +107,7 @@ public class StudentGrade {
 
             body += scoreSummary;
 
-//            System.out.println(scoreSummary);
+
         }
         body += "\n";
 
