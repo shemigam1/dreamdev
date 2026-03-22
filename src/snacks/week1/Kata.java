@@ -1,4 +1,4 @@
-package snacks;
+package snacks.week1;
 
 import java.util.Objects;
 
