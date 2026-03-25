@@ -1,4 +1,4 @@
-package week2.day1.assignment;
+package week2.day1;
 
 public class NumberToWords {
     public static String converter(int number){
