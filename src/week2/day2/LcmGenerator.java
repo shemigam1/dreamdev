@@ -1,7 +1,4 @@
-package week2;
-
-import snacks.week1.ArrayKata;
-import snacks.week1.Kata;
+package week2.day2;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -37,7 +34,7 @@ public class LcmGenerator {
             if (isFactor) factors.add(factor);
             else factor++;
 
-        } while (checkOnes(numbers));
+        } while (!checkOnes(numbers));
         int mul = 1;
         for (int num : factors){
             mul *= num;
