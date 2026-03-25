@@ -37,7 +37,7 @@ public class LcmGenerator {
             if (isFactor) factors.add(factor);
             else factor++;
 
-        } while (ArrayKata.sumOf(numbers) != numbers.length);
+        } while (checkOnes(numbers));
         int mul = 1;
         for (int num : factors){
             mul *= num;
@@ -45,5 +45,10 @@ public class LcmGenerator {
         return mul;
     }
 
-//    public static boolean
+    public static boolean checkOnes(int[] numbers){
+        for (int num : numbers){
+            if (num != 1) return false;
+        }
+        return true;
+    }
 }
