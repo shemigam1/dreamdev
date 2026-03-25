@@ -28,9 +28,10 @@ public class LcmGenerator {
         do {
             boolean isFactor = false;
             for (int i = 0; i < numbers.length; i++) {
-                if (numbers[i] % factor == 0) {
+                if (numbers[i] == 0) return 0;
+                if (Math.abs(numbers[i]) % factor == 0) {
                     isFactor = true;
-                    numbers[i] = numbers[i] / factor;
+                    numbers[i] = Math.abs(numbers[i]) / factor;
                 }
             }
             if (isFactor) factors.add(factor);
@@ -43,4 +44,6 @@ public class LcmGenerator {
         }
         return mul;
     }
+
+//    public static boolean
 }
