@@ -3,6 +3,7 @@ package week2.day1.assignment;
 public class NumberToWords {
     public static String converter(int number){
             if (number == 0) return "zero";
+            if (number < 0) return "negative " + converter(Math.abs(number));
 
             String[] ones = {"", "one", "two", "three", "four", "five", "fix", "seven", "eight", "nine",
                     "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen",
