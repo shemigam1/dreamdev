@@ -1,9 +1,8 @@
-package week2;
+package week2.day1;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import week2.day1.assignment.NumberToWords;
-import week2.day2.LcmGenerator;
+import week2.day1.NumberToWords;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

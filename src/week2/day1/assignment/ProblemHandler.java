@@ -3,7 +3,7 @@ package week2.day1.assignment;
 import java.util.ArrayList;
 
 public class ProblemHandler {
-    ArrayList<Problem> problems = new ArrayList<>();
+    public ArrayList<Problem> problems = new ArrayList<>();
 
     public void addProblem(Problem problem){
         problems.add(problem);

@@ -1,8 +1,7 @@
-package week2;
+package week2.day2;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import week2.day2.LcmGenerator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
