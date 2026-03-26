@@ -20,7 +20,14 @@ public class AccountTest {
     }
     @Test
     @DisplayName("Create account with a balance of zero")
-    public void createAccount_withBalanceOfZero(){
+    public void createAccount_withBalanceOfZeroTest(){
         assertEquals(BigDecimal.ZERO, account.checkBalance(pin));
+    }
+
+    @Test
+    @DisplayName("Deposit 100 into account, balance should be 100")
+    public void deposit100IntoAccount_BalanceIs100Test(){
+        account.deposit(BigDecimal.valueOf(100), pin);
+        assertEquals(BigDecimal.valueOf(100), account.checkBalance(pin));
     }
 }

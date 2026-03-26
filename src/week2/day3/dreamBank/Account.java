@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 public class Account {
     private String name;
     private String pin;
+    private BigDecimal balance = new BigDecimal(0);
 
     public Account(String name, String pin){
         this.name = name;
@@ -12,6 +13,12 @@ public class Account {
     }
 
     public BigDecimal checkBalance(String pin) {
-        return BigDecimal.ZERO;
+        return balance;
+    }
+
+    public void deposit(BigDecimal amount, String pin) {
+        if (this.pin == pin){
+            this.balance = balance.add(amount);
+        }
     }
 }
