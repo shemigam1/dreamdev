@@ -87,4 +87,12 @@ public class AccountTest {
         account.updatePin(pin, "4190");
         assertEquals(BigDecimal.ZERO, account.checkBalance("4190"));
     }
+
+    @Test
+    public void updatePin_withWrongPinTest(){
+        assertEquals(BigDecimal.ZERO, account.checkBalance(pin));
+        assertThrows(InvalidPinException.class, ()->account.checkBalance("4190"));
+        account.updatePin("1739", "4190");
+        assertEquals(BigDecimal.ZERO, account.checkBalance("4190"));
+    }
 }

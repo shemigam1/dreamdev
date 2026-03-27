@@ -44,6 +44,8 @@ public class Account {
         this.balance = balance.subtract(amount);
     }
 
-    public void updatePin(String pin, String number) {
+    public void updatePin(String pin, String newPin) {
+            validatePin(pin);
+            this.pin = newPin;
     }
 }
