@@ -1,5 +1,8 @@
 package week2.day3.dreamBank;
 
+import week2.day3.dreamBank.exceptions.InvalidAmountException;
+import week2.day3.dreamBank.exceptions.InvalidPinException;
+
 import java.math.BigDecimal;
 
 public class Account {
@@ -17,8 +20,22 @@ public class Account {
     }
 
     public void deposit(BigDecimal amount, String pin) {
-        if (this.pin == pin){
-            this.balance = balance.add(amount);
+        validatePin(pin);
+        validateAmount(amount);
+        this.balance = balance.add(amount);
+    }
+
+    public void validateAmount(BigDecimal amount){
+        if (amount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new InvalidAmountException("Amount deposited cannot be negative");
         }
     }
+
+    public void validatePin(String amount){
+        if (this.pin == pin) return;
+        else throw new InvalidPinException("Wrong pin");
+    }
+
+
+
 }

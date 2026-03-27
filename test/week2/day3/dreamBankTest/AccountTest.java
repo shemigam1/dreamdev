@@ -4,10 +4,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import week2.day3.dreamBank.Account;
+import week2.day3.dreamBank.exceptions.InvalidAmountException;
+import week2.day3.dreamBank.exceptions.InvalidPinException;
 
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class AccountTest {
     private Account account;
@@ -29,5 +32,40 @@ public class AccountTest {
     public void deposit100IntoAccount_BalanceIs100Test(){
         account.deposit(BigDecimal.valueOf(100), pin);
         assertEquals(BigDecimal.valueOf(100), account.checkBalance(pin));
+    }
+
+    @Test
+    @DisplayName("Deposit -100 into account, should throw exception")
+    public void depositNegative100IntoAccount_ThrowExceptionTest(){
+        assertEquals(BigDecimal.ZERO, account.checkBalance(pin));
+        assertThrows(InvalidAmountException.class, ()-> account.deposit(BigDecimal.valueOf(-100), pin));
+        assertEquals(BigDecimal.ZERO, account.checkBalance(pin));
+    }
+
+    @Test
+    @DisplayName("Deposit 100 into account with wrong pin, should throw exception")
+    public void deposit100IntoAccountWithWrongPin_ThrowExceptionTest(){
+        assertEquals(BigDecimal.ZERO, account.checkBalance(pin));
+        assertThrows(InvalidPinException.class, ()-> account.deposit(BigDecimal.valueOf(-100), "4190"));
+        assertEquals(BigDecimal.ZERO, account.checkBalance(pin));
+    }
+
+    @Test
+    @DisplayName("Deposit 100 twice into account, balance should be 200")
+    public void deposit100IntoAccountTwice_BalanceIs100Test(){
+        account.deposit(BigDecimal.valueOf(100), pin);
+        assertEquals(BigDecimal.valueOf(100), account.checkBalance(pin));
+        account.deposit(BigDecimal.valueOf(100), pin);
+        assertEquals(BigDecimal.valueOf(200), account.checkBalance(pin));
+    }
+
+    @Test
+    @DisplayName("Deposit 100 into account, withdraw 100")
+    public void deposit100IntoAccount_withdraw100Test(){
+        assertEquals(BigDecimal.ZERO, account.checkBalance(pin));
+        account.deposit(BigDecimal.valueOf(100), pin);
+        assertEquals(BigDecimal.valueOf(100), account.checkBalance(pin));
+        account.withdraw(BigDecimal.valueOf(100), pin);
+        assertEquals(BigDecimal.ZERO, account.checkBalance(pin));
     }
 }
