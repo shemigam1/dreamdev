@@ -9,8 +9,7 @@ import week2.day3.dreamBank.exceptions.InvalidPinException;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AccountTest {
     private Account account;
@@ -98,5 +97,15 @@ public class AccountTest {
     public void updatePin_withWrongPinLengthTest(){
         assertEquals(BigDecimal.ZERO, account.checkBalance(pin));
         assertThrows(InvalidPinException.class, ()-> account.updatePin(pin, "4190000"));
+    }
+
+    @Test
+    public void checkBalanceWith_wrongPinTest(){
+        assertThrows(InvalidPinException.class, ()->account.checkBalance("223"));
+    }
+
+    @Test
+    public void checkAccountNumber_canBeGeneratedExternally(){
+        assertFalse(account.generateAccountNumber(), account.getAccountNumber());
     }
 }

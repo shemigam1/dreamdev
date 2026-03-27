@@ -45,6 +45,7 @@ public class Account {
     }
 
     public void updatePin(String pin, String newPin) {
+        if (newPin.length() != 4) throw new InvalidPinException("PIN must be 4 digits");
         try {
             validatePin(pin);
         } catch (Exception e) {
@@ -52,4 +53,6 @@ public class Account {
         }
         this.pin = newPin;
     }
+
+
 }
