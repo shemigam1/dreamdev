@@ -4,15 +4,18 @@ import week2.day3.dreamBank.exceptions.InvalidAmountException;
 import week2.day3.dreamBank.exceptions.InvalidPinException;
 
 import java.math.BigDecimal;
+import java.util.Random;
 
 public class Account {
     private String name;
     private String pin;
     private BigDecimal balance = new BigDecimal(0);
+    private int accountNumber;
 
     public Account(String name, String pin){
         this.name = name;
         this.pin = pin;
+        this.accountNumber = this.generateAccountNumber();
     }
 
     public BigDecimal checkBalance(String pin) {
@@ -55,4 +58,14 @@ public class Account {
     }
 
 
+    public int generateAccountNumber() {
+        Random r = new Random();
+        int rand = r.nextInt(1000);
+        return 5000 + rand;
+
+    }
+
+    public int getAccountNumber() {
+        return this.accountNumber;
+    }
 }

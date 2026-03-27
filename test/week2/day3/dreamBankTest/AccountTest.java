@@ -105,7 +105,7 @@ public class AccountTest {
     }
 
     @Test
-    public void checkAccountNumber_canBeGeneratedExternally(){
-        assertFalse(account.generateAccountNumber(), account.getAccountNumber());
+    public void checkAccountNumber_cantBeGeneratedExternally(){
+        assertNotEquals(account.generateAccountNumber(), account.getAccountNumber());
     }
 }
