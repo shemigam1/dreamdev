@@ -16,6 +16,7 @@ public class Account {
     }
 
     public BigDecimal checkBalance(String pin) {
+        validatePin(pin);
         return balance;
     }
 
@@ -41,5 +42,8 @@ public class Account {
         validatePin(pin);
         validateAmount(amount);
         this.balance = balance.subtract(amount);
+    }
+
+    public void updatePin(String pin, String number) {
     }
 }

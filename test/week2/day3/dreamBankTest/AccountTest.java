@@ -68,4 +68,23 @@ public class AccountTest {
         account.withdraw(BigDecimal.valueOf(100), pin);
         assertEquals(BigDecimal.ZERO, account.checkBalance(pin));
     }
+
+    @Test
+    @DisplayName("Deposit 1000 into account, withdraw 100 and 600")
+    public void deposit1000IntoAccount_withdraw100And600Test(){
+        assertEquals(BigDecimal.ZERO, account.checkBalance(pin));
+        account.deposit(BigDecimal.valueOf(1000), pin);
+        assertEquals(BigDecimal.valueOf(1000), account.checkBalance(pin));
+        account.withdraw(BigDecimal.valueOf(100), pin);
+        account.withdraw(BigDecimal.valueOf(600), pin);
+        assertEquals(BigDecimal.valueOf(300), account.checkBalance(pin));
+    }
+
+    @Test
+    public void updatePinTest(){
+        assertEquals(BigDecimal.ZERO, account.checkBalance(pin));
+        assertThrows(InvalidPinException.class, ()->account.checkBalance("4190"));
+        account.updatePin(pin, "4190");
+        assertEquals(BigDecimal.ZERO, account.checkBalance("4190"));
+    }
 }
