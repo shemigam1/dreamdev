@@ -45,7 +45,11 @@ public class Account {
     }
 
     public void updatePin(String pin, String newPin) {
+        try {
             validatePin(pin);
-            this.pin = newPin;
+        } catch (Exception e) {
+            throw new InvalidPinException("wrong pin");
+        }
+        this.pin = newPin;
     }
 }
