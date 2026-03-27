@@ -31,11 +31,15 @@ public class Account {
         }
     }
 
-    public void validatePin(String amount){
+    public void validatePin(String pin){
         if (this.pin == pin) return;
         else throw new InvalidPinException("Wrong pin");
     }
 
 
-
+    public void withdraw(BigDecimal amount, String pin) {
+        validatePin(pin);
+        validateAmount(amount);
+        this.balance = balance.subtract(amount);
+    }
 }
