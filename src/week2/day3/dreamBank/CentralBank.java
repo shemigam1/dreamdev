@@ -2,11 +2,13 @@ package week2.day3.dreamBank;
 
 import week2.day3.dreamBank.exceptions.InvalidBankNameException;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CentralBank {
     private Map<String, Bank> bankRegistry = new HashMap<>();
+    private BigDecimal federalReserve = new BigDecimal(0);
 
     public String registerBank(String bankName, Bank bank) {
         String sanitized = sanitize(bankName);
@@ -21,5 +23,12 @@ public class CentralBank {
 
     private String sanitize(String bankName) {
         return bankName.replaceAll("\\s+", "").toLowerCase();
+    }
+
+    public void transferBetweenBanks(Bank senderBank, int senderAccount, Bank receiverBank, int receiverAccount, BigDecimal amount, String pin) {
+        senderBank.withdraw(senderAccount, pin, amount);
+        this.federalReserve.add(amount);
+        receiverBank.deposit(receiverAccount, amount);
+        this.federalReserve.subtract(amount);
     }
 }

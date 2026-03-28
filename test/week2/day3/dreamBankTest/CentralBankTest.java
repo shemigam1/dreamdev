@@ -42,6 +42,8 @@ public class CentralBankTest {
         assertEquals(0, dreamBank.checkBalance(semil, "1738").compareTo(BigDecimal.ZERO));
         assertEquals(0, moniepoint.checkBalance(chibuzor, "4190").compareTo(BigDecimal.ZERO));
         dreamBank.deposit(semil, BigDecimal.valueOf(10_000));
-//        cbn.transfer(dreamBank, moniepoint);
+        cbn.transferBetweenBanks(dreamBank, semil, moniepoint, chibuzor, BigDecimal.valueOf(8_000), "1738");
+        assertEquals(0, dreamBank.checkBalance(semil, "1738").compareTo(BigDecimal.valueOf(2_000)));
+        assertEquals(0, moniepoint.checkBalance(chibuzor, "4190").compareTo(BigDecimal.valueOf(8_000)));
     }
 }
