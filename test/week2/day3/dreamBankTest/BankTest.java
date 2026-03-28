@@ -6,6 +6,7 @@ import week2.day3.dreamBank.Account;
 import week2.day3.dreamBank.Bank;
 import week2.day3.dreamBank.exceptions.InvalidAccountNumberException;
 import week2.day3.dreamBank.exceptions.InvalidAmountException;
+import week2.day3.dreamBank.exceptions.InvalidPinException;
 
 import java.math.BigDecimal;
 
@@ -87,5 +88,44 @@ public class BankTest {
         bank.transfer(accountNumber1, accountNumber2, BigDecimal.valueOf(500), pin);
         assertEquals(BigDecimal.valueOf(500), bank.checkBalance(accountNumber1, pin));
         assertEquals(BigDecimal.valueOf(500), bank.checkBalance(accountNumber2, pin));
+    }
+
+    @Test
+    public void deposit_invalidAccountNumber_throwsExceptionTest() {
+        assertThrows(InvalidAccountNumberException.class, () -> bank.deposit(9999, pin, BigDecimal.valueOf(500)));
+    }
+
+    @Test
+    public void withdraw_invalidAccountNumber_throwsExceptionTest() {
+        assertThrows(InvalidAccountNumberException.class, () -> bank.withdraw(9999, pin, BigDecimal.valueOf(500)));
+    }
+
+    @Test
+    public void checkBalance_invalidAccountNumber_throwsExceptionTest() {
+        assertThrows(InvalidAccountNumberException.class, () -> bank.checkBalance(9999, pin));
+    }
+
+    @Test
+    public void checkBalance_wrongPin_throwsExceptionTest() {
+        int accountNumber = bank.createAccount(accountName, pin);
+        assertThrows(InvalidPinException.class, () -> bank.checkBalance(accountNumber, "0000"));
+    }
+
+    @Test
+    public void deposit_wrongPin_throwsExceptionTest() {
+        int accountNumber = bank.createAccount(accountName, pin);
+        assertThrows(InvalidPinException.class, () -> bank.deposit(accountNumber, "0000", BigDecimal.valueOf(500)));
+    }
+
+    @Test
+    public void withdraw_wrongPin_throwsExceptionTest() {
+        int accountNumber = bank.createAccount(accountName, pin);
+        bank.deposit(accountNumber, pin, BigDecimal.valueOf(500));
+        assertThrows(InvalidPinException.class, () -> bank.withdraw(accountNumber, "0000", BigDecimal.valueOf(200)));
+    }
+
+    @Test
+    public void checkBalance_invalidAccountNumber(){
+        assertThrows(InvalidAccountNumberException.class, ()->bank.checkBalance(23445, "2334"));
     }
 }
