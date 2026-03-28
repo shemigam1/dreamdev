@@ -10,12 +10,13 @@ public class Account {
     private String name;
     private String pin;
     private BigDecimal balance = new BigDecimal(0);
+    private static int serialNumber = 5000;
     private int accountNumber;
 
     public Account(String name, String pin){
         this.name = name;
         this.pin = pin;
-        this.accountNumber = this.generateAccountNumber();
+        this.accountNumber = generateAccountNumber();
     }
 
     public BigDecimal checkBalance(String pin) {
@@ -58,11 +59,9 @@ public class Account {
     }
 
 
-    public int generateAccountNumber() {
-        Random r = new Random();
-        int rand = r.nextInt(1000);
-        return 5000 + rand;
-
+    public static int generateAccountNumber() {
+        serialNumber += 1;
+        return serialNumber;
     }
 
     public int getAccountNumber() {
