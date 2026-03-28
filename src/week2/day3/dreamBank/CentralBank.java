@@ -43,4 +43,8 @@ public class CentralBank {
         receiverBank.deposit(receiverAccount, amount);
         this.federalReserve = this.federalReserve.subtract(amount);
     }
+
+    public int getBankRegistrySize() {
+        return this.bankRegistry.size();
+    }
 }

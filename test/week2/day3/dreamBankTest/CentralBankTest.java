@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import week2.day3.dreamBank.Bank;
 import week2.day3.dreamBank.CentralBank;
+import week2.day3.dreamBank.exceptions.InvalidAmountException;
 import week2.day3.dreamBank.exceptions.InvalidBankNameException;
 
 import java.math.BigDecimal;
@@ -53,5 +54,41 @@ public class CentralBankTest {
         cbn.transferBetweenBanks(dreamBank.getBankName(), semil, moniepoint.getBankName(), chibuzor, BigDecimal.valueOf(8_000), "1738");
         assertEquals(0, dreamBank.checkBalance(semil, "1738").compareTo(BigDecimal.valueOf(2_000)));
         assertEquals(0, moniepoint.checkBalance(chibuzor, "4190").compareTo(BigDecimal.valueOf(8_000)));
+    }
+
+    @Test
+    public void registerSameBankDifferentCasing_throwsExceptionTest() {
+        cbn.registerBank(dreamBank.getBankName(), dreamBank);
+        Bank upper = new Bank("DREAM BANK");
+        Bank lower = new Bank("dream bank");
+        assertThrows(InvalidBankNameException.class, () -> cbn.registerBank(upper.getBankName(), upper));
+        assertThrows(InvalidBankNameException.class, () -> cbn.registerBank(lower.getBankName(), lower));
+    }
+
+    @Test
+    public void transfer_unregisteredSenderBank_throwsExceptionTest() {
+        Bank moniepoint = new Bank("Moniepoint");
+        cbn.registerBank(moniepoint.getBankName(), moniepoint);
+        int chibuzor = moniepoint.createAccount("chibuzor", "4190");
+        assertThrows(InvalidBankNameException.class,
+                () -> cbn.transferBetweenBanks(
+                        dreamBank.getBankName(), 9999,
+                        moniepoint.getBankName(), chibuzor,
+                        BigDecimal.valueOf(500), "1738"));
+    }
+
+    @Test
+    public void transfer_insufficientFunds_throwsExceptionTest() {
+        Bank moniepoint = new Bank("Moniepoint");
+        cbn.registerBank(dreamBank.getBankName(), dreamBank);
+        cbn.registerBank(moniepoint.getBankName(), moniepoint);
+        int semil = dreamBank.createAccount("semilore", "1738");
+        int chibuzor = moniepoint.createAccount("chibuzor", "4190");
+        dreamBank.deposit(semil, BigDecimal.valueOf(500));
+        assertThrows(InvalidAmountException.class,
+                () -> cbn.transferBetweenBanks(
+                        dreamBank.getBankName(), semil,
+                        moniepoint.getBankName(), chibuzor,
+                        BigDecimal.valueOf(1_000), "1738"));
     }
 }
