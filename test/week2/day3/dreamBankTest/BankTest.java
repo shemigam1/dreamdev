@@ -52,4 +52,15 @@ public class BankTest {
         bank.deposit(accountNumber, pin, BigDecimal.valueOf(1_000));
         assertEquals(BigDecimal.valueOf(1000), bank.checkBalance(accountNumber, pin));
     }
+
+    @Test
+    public void createAccount_deposit1000Withdraw500BalanceShould_be500Test(){
+
+        int accountNumber = bank.createAccount(accountName, pin);
+        assertEquals(BigDecimal.ZERO, bank.checkBalance(accountNumber, pin));
+        bank.deposit(accountNumber, pin, BigDecimal.valueOf(1_000));
+        assertEquals(BigDecimal.valueOf(1000), bank.checkBalance(accountNumber, pin));
+        bank.withdraw(accountNumber, pin, BigDecimal.valueOf(500));
+        assertEquals(BigDecimal.valueOf(500), bank.checkBalance(accountNumber, pin));
+    }
 }
