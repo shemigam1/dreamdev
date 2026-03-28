@@ -22,6 +22,7 @@ public class Bank {
     }
 
     public BigDecimal checkBalance(int accountNumber, String pin) {
+        validateAccountNumber(accountNumber);
         Account account = banks.get(accountNumber);
         return account.checkBalance(pin);
     }
