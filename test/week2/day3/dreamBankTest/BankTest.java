@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import week2.day3.dreamBank.Account;
 import week2.day3.dreamBank.Bank;
-import week2.day3.dreamBank.exceptions.InvalidAccountNameException;
+import week2.day3.dreamBank.exceptions.InvalidAccountNumberException;
 
 import java.math.BigDecimal;
 
@@ -22,8 +22,8 @@ public class BankTest {
     }
     @Test
     public void createAccount_checkAccountBalanceIsZeroTest(){
-        bank.createAccount(accountName, pin);
-        int accountNumber = 5001;
+
+        int accountNumber = bank.createAccount(accountName, pin);
         assertEquals(BigDecimal.ZERO, bank.checkBalance(accountNumber, pin));
     }
 
@@ -46,10 +46,10 @@ public class BankTest {
 
     @Test
     public void createAccount_deposit1000BalanceShould_be1000Test(){
-        bank.createAccount(accountName, pin);
-        int accountNumber = 5001;
+
+        int accountNumber = bank.createAccount(accountName, pin);
         assertEquals(BigDecimal.ZERO, bank.checkBalance(accountNumber, pin));
         bank.deposit(accountNumber, pin, BigDecimal.valueOf(1_000));
-        assertEquals(BigDecimal.ZERO, bank.checkBalance(accountNumber, pin));
+        assertEquals(BigDecimal.valueOf(1000), bank.checkBalance(accountNumber, pin));
     }
 }

@@ -1,6 +1,6 @@
 package week2.day3.dreamBank;
 
-import week2.day3.dreamBank.exceptions.InvalidAccountNameException;
+import week2.day3.dreamBank.exceptions.InvalidAccountNumberException;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -14,10 +14,11 @@ public class Bank {
         this.name = name;
     }
 
-    public void createAccount(String accountName, String pin) {
+    public int createAccount(String accountName, String pin) {
         Account account = new Account(accountName, pin);
         int accountNumber = account.getAccountNumber();
         banks.put(accountNumber, account);
+        return accountNumber;
     }
 
     public BigDecimal checkBalance(int accountNumber, String pin) {
@@ -25,12 +26,16 @@ public class Bank {
         return account.checkBalance(pin);
     }
 
-//    public void validateAccountName(String accountName){
-//        if (banks.containsKey(accountName)){
-//            throw new InvalidAccountNameException("Duplicate accounts are prohibited");
-//        } else return;
-//    }
+    public void validateAccountNumber(int accountNumber){
+        if (!banks.containsKey(accountNumber)){
+            throw new InvalidAccountNumberException("Account doesn't exist");
+        }else return;
 
-    public void deposit(int accountNumber, String pin, BigDecimal bigDecimal) {
+    }
+
+    public void deposit(int accountNumber, String pin, BigDecimal amount) {
+        validateAccountNumber(accountNumber);
+        Account account = banks.get(accountNumber);
+        account.deposit(amount, pin);
     }
 }
