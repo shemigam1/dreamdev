@@ -28,13 +28,6 @@ public class BankTest {
         assertEquals(BigDecimal.ZERO, bank.checkBalance(accountNumber, pin));
     }
 
-//    @Test
-//    public void createDuplicateAccounts_withSameNameThrowsExceptionTest(){
-//        bank.createAccount(accountName, pin);
-//        assertEquals(BigDecimal.ZERO, bank.checkBalance(accountName, pin));
-//        assertThrows(InvalidAccountNameException.class , ()->bank.createAccount(accountName, pin));
-//    }
-
     @Test
     public void createMultipleAccountsTest(){
 
@@ -50,7 +43,7 @@ public class BankTest {
 
         int accountNumber = bank.createAccount(accountName, pin);
         assertEquals(BigDecimal.ZERO, bank.checkBalance(accountNumber, pin));
-        bank.deposit(accountNumber, pin, BigDecimal.valueOf(1_000));
+        bank.deposit(accountNumber, BigDecimal.valueOf(1_000));
         assertEquals(BigDecimal.valueOf(1000), bank.checkBalance(accountNumber, pin));
     }
 
@@ -59,7 +52,7 @@ public class BankTest {
 
         int accountNumber = bank.createAccount(accountName, pin);
         assertEquals(BigDecimal.ZERO, bank.checkBalance(accountNumber, pin));
-        bank.deposit(accountNumber, pin, BigDecimal.valueOf(1_000));
+        bank.deposit(accountNumber,  BigDecimal.valueOf(1_000));
         assertEquals(BigDecimal.valueOf(1000), bank.checkBalance(accountNumber, pin));
         bank.withdraw(accountNumber, pin, BigDecimal.valueOf(500));
         assertEquals(BigDecimal.valueOf(500), bank.checkBalance(accountNumber, pin));
@@ -70,7 +63,7 @@ public class BankTest {
 
         int accountNumber = bank.createAccount(accountName, pin);
         assertEquals(BigDecimal.ZERO, bank.checkBalance(accountNumber, pin));
-        bank.deposit(accountNumber, pin, BigDecimal.valueOf(1_000));
+        bank.deposit(accountNumber,  BigDecimal.valueOf(1_000));
         assertEquals(BigDecimal.valueOf(1000), bank.checkBalance(accountNumber, pin));
         assertThrows(InvalidAmountException.class, ()->bank.withdraw(accountNumber, pin, BigDecimal.valueOf(1500)));
     }
@@ -79,7 +72,7 @@ public class BankTest {
     public void createTwoAccounts_TransferMoneyBetweenThem_accountBalanceShouldReflectTest(){
         int accountNumber1 = bank.createAccount(accountName, pin);
         assertEquals(BigDecimal.ZERO, bank.checkBalance(accountNumber1, pin));
-        bank.deposit(accountNumber1, pin, BigDecimal.valueOf(1_000));
+        bank.deposit(accountNumber1,  BigDecimal.valueOf(1_000));
         assertEquals(BigDecimal.valueOf(1000), bank.checkBalance(accountNumber1, pin));
         int accountNumber2 = bank.createAccount(accountName, pin);
         assertEquals(BigDecimal.ZERO, bank.checkBalance(accountNumber2, pin));
@@ -91,7 +84,7 @@ public class BankTest {
 
     @Test
     public void deposit_invalidAccountNumber_throwsExceptionTest() {
-        assertThrows(InvalidAccountNumberException.class, () -> bank.deposit(9999, pin, BigDecimal.valueOf(500)));
+        assertThrows(InvalidAccountNumberException.class, () -> bank.deposit(9999, BigDecimal.valueOf(500)));
     }
 
     @Test
@@ -111,15 +104,9 @@ public class BankTest {
     }
 
     @Test
-    public void deposit_wrongPin_throwsExceptionTest() {
-        int accountNumber = bank.createAccount(accountName, pin);
-        assertThrows(InvalidPinException.class, () -> bank.deposit(accountNumber, "0000", BigDecimal.valueOf(500)));
-    }
-
-    @Test
     public void withdraw_wrongPin_throwsExceptionTest() {
         int accountNumber = bank.createAccount(accountName, pin);
-        bank.deposit(accountNumber, pin, BigDecimal.valueOf(500));
+        bank.deposit(accountNumber, BigDecimal.valueOf(500));
         assertThrows(InvalidPinException.class, () -> bank.withdraw(accountNumber, "0000", BigDecimal.valueOf(200)));
     }
 
@@ -139,14 +126,14 @@ public class BankTest {
     public void transfer_insufficientFunds_throwsExceptionTest() {
         int acc1 = bank.createAccount(accountName, pin);
         int acc2 = bank.createAccount("lore", "1739");
-        bank.deposit(acc1, pin, BigDecimal.valueOf(200));
+        bank.deposit(acc1, BigDecimal.valueOf(200));
         assertThrows(InvalidAmountException.class, () -> bank.transfer(acc1, acc2, BigDecimal.valueOf(500), pin));
     }
 
     @Test
     public void transfer_invalidDestination_throwsExceptionTest() {
         int acc1 = bank.createAccount(accountName, pin);
-        bank.deposit(acc1, pin, BigDecimal.valueOf(500));
+        bank.deposit(acc1, BigDecimal.valueOf(500));
         assertThrows(InvalidAccountNumberException.class, () -> bank.transfer(acc1, 9999, BigDecimal.valueOf(200), pin));
     }
 

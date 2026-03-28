@@ -24,8 +24,7 @@ public class Account {
         return balance;
     }
 
-    public void deposit(BigDecimal amount, String pin) {
-        validatePin(pin);
+    public void deposit(BigDecimal amount) {
         validateDeposit(amount);
         this.balance = balance.add(amount);
     }

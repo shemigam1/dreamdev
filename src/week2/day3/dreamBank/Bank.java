@@ -14,6 +14,10 @@ public class Bank {
         this.name = name;
     }
 
+    public String getBankName(){
+        return this.name;
+    }
+
     public int createAccount(String accountName, String pin) {
         Account account = new Account(accountName, pin);
         int accountNumber = account.getAccountNumber();
@@ -34,10 +38,10 @@ public class Bank {
 
     }
 
-    public void deposit(int accountNumber, String pin, BigDecimal amount) {
+    public void deposit(int accountNumber, BigDecimal amount) {
         validateAccountNumber(accountNumber);
         Account account = banks.get(accountNumber);
-        account.deposit(amount, pin);
+        account.deposit(amount);
     }
 
     public void withdraw(int accountNumber, String pin, BigDecimal amount) {
@@ -52,7 +56,7 @@ public class Bank {
         Account account1 = banks.get(accountNumber1);
         Account account2 = banks.get(accountNumber2);
         account1.withdraw(amount, pin);
-        account2.deposit(amount, pin);
+        account2.deposit(amount);
     }
 
 
