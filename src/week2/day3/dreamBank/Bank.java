@@ -38,4 +38,19 @@ public class Bank {
         Account account = banks.get(accountNumber);
         account.deposit(amount, pin);
     }
+
+    public void withdraw(int accountNumber, String pin, BigDecimal amount) {
+        validateAccountNumber(accountNumber);
+        Account account = banks.get(accountNumber);
+        account.withdraw(amount, pin);
+    }
+
+    public void transfer(int accountNumber1, int accountNumber2, BigDecimal amount, String pin) {
+        validateAccountNumber(accountNumber1);
+        validateAccountNumber(accountNumber2);
+        Account account1 = banks.get(accountNumber1);
+        Account account2 = banks.get(accountNumber2);
+        account1.withdraw(amount, pin);
+        account2.deposit(amount, pin);
+    }
 }
