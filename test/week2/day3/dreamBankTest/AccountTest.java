@@ -105,7 +105,10 @@ public class AccountTest {
     }
 
     @Test
-    public void checkAccountNumber_cantBeGeneratedExternally(){
-        assertNotEquals(account.generateAccountNumber(), account.getAccountNumber());
+    public void chckWithdrawAmountMoreThanBalance_throwsExceptionTest(){
+        assertEquals(BigDecimal.ZERO, account.checkBalance(pin));
+        account.deposit(BigDecimal.valueOf(1000), pin);
+        assertEquals(BigDecimal.valueOf(1000), account.checkBalance(pin));
+        assertThrows(InvalidAmountException.class, ()->account.withdraw(BigDecimal.valueOf(2000), pin));
     }
 }

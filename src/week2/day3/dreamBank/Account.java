@@ -26,35 +26,38 @@ public class Account {
 
     public void deposit(BigDecimal amount, String pin) {
         validatePin(pin);
-        validateAmount(amount);
+        validateDeposit(amount);
         this.balance = balance.add(amount);
     }
 
-    public void validateAmount(BigDecimal amount){
+    private void validateDeposit(BigDecimal amount){
         if (amount.compareTo(BigDecimal.ZERO) < 0) {
             throw new InvalidAmountException("Amount deposited cannot be negative");
         }
+
     }
 
-    public void validatePin(String pin){
-        if (this.pin == pin) return;
+    private void validateWithdrawal(BigDecimal amount){
+        if (amount.compareTo(this.balance) > 0){
+            throw new InvalidAmountException("Insufficient funds to withdraw this amount");
+        }
+    }
+
+    private void validatePin(String pin){
+        if (this.pin.equals(pin)) return;
         else throw new InvalidPinException("Wrong pin");
     }
 
 
     public void withdraw(BigDecimal amount, String pin) {
         validatePin(pin);
-        validateAmount(amount);
+        validateWithdrawal(amount);
         this.balance = balance.subtract(amount);
     }
 
     public void updatePin(String pin, String newPin) {
         if (newPin.length() != 4) throw new InvalidPinException("PIN must be 4 digits");
-        try {
-            validatePin(pin);
-        } catch (Exception e) {
-            throw new InvalidPinException("wrong pin");
-        }
+        validatePin(pin);
         this.pin = newPin;
     }
 

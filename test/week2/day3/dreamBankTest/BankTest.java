@@ -18,6 +18,7 @@ public class BankTest {
     @BeforeEach
     public void setup(){
         bank = new Bank("Dream Bank");
+//        bank.deleteAll();
     }
     @Test
     public void createAccount_checkAccountBalanceIsZeroTest(){
@@ -40,7 +41,7 @@ public class BankTest {
         assertEquals(BigDecimal.ZERO, bank.checkBalance(accountNumber, pin));
         bank.createAccount("lore", "1739");
         int accountNumber2 = 5002;
-        assertEquals(BigDecimal.ZERO, bank.checkBalance(accountNumber2, pin));
+        assertEquals(BigDecimal.ZERO, bank.checkBalance(accountNumber2, "1739"));
     }
 
     @Test
