@@ -57,6 +57,7 @@ public class Account {
 
     public void updatePin(String pin, String newPin) {
         if (newPin.length() != 4) throw new InvalidPinException("PIN must be 4 digits");
+        if (!newPin.matches("\\d+")) throw new InvalidPinException("Invalid PIN");
         validatePin(pin);
         this.pin = newPin;
     }

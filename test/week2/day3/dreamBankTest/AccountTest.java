@@ -105,10 +105,48 @@ public class AccountTest {
     }
 
     @Test
-    public void chckWithdrawAmountMoreThanBalance_throwsExceptionTest(){
+    public void checkWithdrawAmountMoreThanBalance_throwsExceptionTest(){
         assertEquals(BigDecimal.ZERO, account.checkBalance(pin));
         account.deposit(BigDecimal.valueOf(1000), pin);
         assertEquals(BigDecimal.valueOf(1000), account.checkBalance(pin));
         assertThrows(InvalidAmountException.class, ()->account.withdraw(BigDecimal.valueOf(2000), pin));
+    }
+
+    @Test
+    public void depositZero_balanceRemainsZeroTest() {
+        account.deposit(BigDecimal.ZERO, pin);
+        assertEquals(0, account.checkBalance(pin).compareTo(BigDecimal.ZERO));
+    }
+
+    @Test
+    public void withdrawZero_balanceRemainsZeroTest() {
+        account.deposit(BigDecimal.valueOf(500), pin);
+        account.withdraw(BigDecimal.ZERO, pin);
+        assertEquals(0, account.checkBalance(pin).compareTo(BigDecimal.valueOf(500)));
+    }
+    @Test
+    public void withdraw_insufficientFunds_balanceUnchangedTest() {
+        account.deposit(BigDecimal.valueOf(500), pin);
+        assertThrows(InvalidAmountException.class, () -> account.withdraw(BigDecimal.valueOf(1000), pin));
+        assertEquals(0, account.checkBalance(pin).compareTo(BigDecimal.valueOf(500)));
+    }
+
+    @Test
+    public void updatePin_oldPinNoLongerWorks_throwsExceptionTest() {
+        account.updatePin(pin, "4190");
+        assertThrows(InvalidPinException.class, () -> account.checkBalance(pin));
+        assertEquals(0, account.checkBalance("4190").compareTo(BigDecimal.ZERO));
+    }
+
+    @Test
+    public void updatePin_withEmptyString_throwsExceptionTest() {
+        assertThrows(InvalidPinException.class, () -> account.updatePin(pin, ""));
+        assertEquals(0, account.checkBalance(pin).compareTo(BigDecimal.ZERO));
+    }
+
+    @Test
+    public void updatePin_withNonDigitChars_throwsExceptionTest() {
+        assertThrows(InvalidPinException.class, () -> account.updatePin(pin, "abcd"));
+        assertEquals(0, account.checkBalance(pin).compareTo(BigDecimal.ZERO));
     }
 }

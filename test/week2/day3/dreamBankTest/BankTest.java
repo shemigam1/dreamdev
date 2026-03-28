@@ -10,8 +10,7 @@ import week2.day3.dreamBank.exceptions.InvalidPinException;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BankTest {
     Bank bank;
@@ -128,4 +127,33 @@ public class BankTest {
     public void checkBalance_invalidAccountNumber(){
         assertThrows(InvalidAccountNumberException.class, ()->bank.checkBalance(23445, "2334"));
     }
+
+    @Test
+    public void twoAccountsSameName_getDifferentAccountNumbersTest() {
+        int acc1 = bank.createAccount(accountName, pin);
+        int acc2 = bank.createAccount(accountName, pin);
+        assertNotEquals(acc1, acc2);
+    }
+
+    @Test
+    public void transfer_insufficientFunds_throwsExceptionTest() {
+        int acc1 = bank.createAccount(accountName, pin);
+        int acc2 = bank.createAccount("lore", "1739");
+        bank.deposit(acc1, pin, BigDecimal.valueOf(200));
+        assertThrows(InvalidAmountException.class, () -> bank.transfer(acc1, acc2, BigDecimal.valueOf(500), pin));
+    }
+
+    @Test
+    public void transfer_invalidDestination_throwsExceptionTest() {
+        int acc1 = bank.createAccount(accountName, pin);
+        bank.deposit(acc1, pin, BigDecimal.valueOf(500));
+        assertThrows(InvalidAccountNumberException.class, () -> bank.transfer(acc1, 9999, BigDecimal.valueOf(200), pin));
+    }
+
+    @Test
+    public void transfer_invalidSource_throwsExceptionTest() {
+        int acc2 = bank.createAccount("lore", "1739");
+        assertThrows(InvalidAccountNumberException.class, () -> bank.transfer(9999, acc2, BigDecimal.valueOf(200), pin));
+    }
+
 }
