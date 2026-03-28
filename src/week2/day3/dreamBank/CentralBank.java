@@ -9,6 +9,7 @@ import java.util.Map;
 public class CentralBank {
     private Map<String, Bank> bankRegistry = new HashMap<>();
     private BigDecimal federalReserve = new BigDecimal(0);
+    private BigDecimal charges = new BigDecimal("0.75");
 
     public String registerBank(String bankName, Bank bank) {
         String sanitized = sanitize(bankName);
@@ -21,14 +22,25 @@ public class CentralBank {
         if (bankRegistry.containsKey(bankName)) throw new InvalidBankNameException("Bank exists already");
     }
 
+    private void validateBankExists(String bankName) {
+        if (!bankRegistry.containsKey(bankName))
+            throw new InvalidBankNameException("Bank not found");
+    }
+
     private String sanitize(String bankName) {
         return bankName.replaceAll("\\s+", "").toLowerCase();
     }
 
-    public void transferBetweenBanks(Bank senderBank, int senderAccount, Bank receiverBank, int receiverAccount, BigDecimal amount, String pin) {
+    public void transferBetweenBanks(String senderBankName, int senderAccount, String receiverBankName, int receiverAccount, BigDecimal amount, String pin) {
+        senderBankName = sanitize(senderBankName);
+        receiverBankName = sanitize(receiverBankName);
+        validateBankExists(senderBankName);
+        validateBankExists(receiverBankName);
+        Bank senderBank = bankRegistry.get(senderBankName);
         senderBank.withdraw(senderAccount, pin, amount);
-        this.federalReserve.add(amount);
+        this.federalReserve = this.federalReserve.add(amount);
+        Bank receiverBank = bankRegistry.get(receiverBankName);
         receiverBank.deposit(receiverAccount, amount);
-        this.federalReserve.subtract(amount);
+        this.federalReserve = this.federalReserve.subtract(amount);
     }
 }

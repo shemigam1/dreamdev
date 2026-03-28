@@ -33,6 +33,14 @@ public class CentralBankTest {
     }
 
     @Test
+    public void registerTwoDifferentBanks_registrySizeIsTwoTest() {
+        Bank moniepoint = new Bank("Moniepoint");
+        cbn.registerBank(dreamBank.getBankName(), dreamBank);
+        cbn.registerBank(moniepoint.getBankName(), moniepoint);
+        assertEquals(2, cbn.getBankRegistrySize());
+    }
+
+    @Test
     public void createTwoBanks_createTwoAccounts_transferMoneyBetweenBanksTest(){
         cbn.registerBank(dreamBank.getBankName(), dreamBank);
         Bank moniepoint =  new Bank("Moniepoint");
@@ -42,7 +50,7 @@ public class CentralBankTest {
         assertEquals(0, dreamBank.checkBalance(semil, "1738").compareTo(BigDecimal.ZERO));
         assertEquals(0, moniepoint.checkBalance(chibuzor, "4190").compareTo(BigDecimal.ZERO));
         dreamBank.deposit(semil, BigDecimal.valueOf(10_000));
-        cbn.transferBetweenBanks(dreamBank, semil, moniepoint, chibuzor, BigDecimal.valueOf(8_000), "1738");
+        cbn.transferBetweenBanks(dreamBank.getBankName(), semil, moniepoint.getBankName(), chibuzor, BigDecimal.valueOf(8_000), "1738");
         assertEquals(0, dreamBank.checkBalance(semil, "1738").compareTo(BigDecimal.valueOf(2_000)));
         assertEquals(0, moniepoint.checkBalance(chibuzor, "4190").compareTo(BigDecimal.valueOf(8_000)));
     }
