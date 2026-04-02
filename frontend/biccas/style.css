@@ -25,8 +25,12 @@ nav{
     width: 65%;
 }
 
-nav a{
+a{
     text-decoration: none;
+}
+
+nav a{
+  
     color: black;
     font-size: 18px;
 }
@@ -53,3 +57,66 @@ nav div {
 }
 
 /* header --end */
+
+/* cta section */
+.cta{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px 100px;
+}
+
+.cta-text-container{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    width: 50%;
+}
+
+
+
+.cta-text{
+    font-size: 80px;
+    font-weight: 700;
+}
+
+.cta-text-container img{
+    width: 80%;
+}
+
+.cta-btn {
+    padding: 15px;
+    background: #54BD95;
+    color: white;
+    border-radius: 25px;
+}
+
+.cta-btn-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.cta-btn {
+    background: #54BD95;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    text-decoration: none;
+}
+
+.cta-btn-demo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cta-btn-demo img {
+    width: 40px;
+    height: 40px;
+}
+
+.cta-dummy {
+    width: 70%;
+    line-height: 24px;
+}
