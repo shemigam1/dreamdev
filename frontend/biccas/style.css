@@ -1,0 +1,55 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+/* header */
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 100px;
+}
+
+header h1 {
+    color: #54BD95;
+    font-style: semi-bold;
+}
+
+nav{
+    display: flex;
+    justify-content: space-between;
+    width: 65%;
+}
+
+nav a{
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+}
+
+.navLinks{
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    list-style: none;
+}
+
+nav div {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.signup{
+    /* border: 1px solid black; */
+    background: #54BD95;
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+}
+
+/* header --end */
