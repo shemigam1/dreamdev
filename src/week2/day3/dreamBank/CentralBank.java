@@ -47,4 +47,8 @@ public class CentralBank {
     public int getBankRegistrySize() {
         return this.bankRegistry.size();
     }
+
+    public Bank getBank(String bankName) {
+        return bankRegistry.get(bankName);
+    }
 }
