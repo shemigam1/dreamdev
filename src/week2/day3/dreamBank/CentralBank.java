@@ -27,7 +27,7 @@ public class CentralBank {
             throw new InvalidBankNameException("Bank not found");
     }
 
-    private String sanitize(String bankName) {
+    public String sanitize(String bankName) {
         return bankName.replaceAll("\\s+", "").toLowerCase();
     }
 

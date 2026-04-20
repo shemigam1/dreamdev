@@ -17,7 +17,7 @@ public class Main {
         System.out.println("""
                 ╔══════════════════════════════════════╗
                 ║         WELCOME TO DREAM BANK        ║
-                ║     Your all-in-one financial partner ║
+                ║     Your all-in-one financial partner║
                 ╚══════════════════════════════════════╝
                 """);
 
@@ -43,7 +43,6 @@ public class Main {
         }
     }
 
-    // ── Bank management ──────────────────────────────────────────────────────
 
     private static void createBank() {
         System.out.print("\nEnter bank name: ");
@@ -65,6 +64,7 @@ public class Main {
         System.out.print("\nEnter bank name: ");
         String bankName = scanner.nextLine().trim();
         try {
+            bankName = cbn.sanitize(bankName);
             Bank bank = cbn.getBank(bankName);
             bankMenu(bank);
         } catch (InvalidBankNameException e) {
@@ -72,7 +72,6 @@ public class Main {
         }
     }
 
-    // ── Bank menu ─────────────────────────────────────────────────────────────
 
     private static void bankMenu(Bank bank) {
         while (true) {
@@ -132,7 +131,6 @@ public class Main {
         }
     }
 
-    // ── Account menu ──────────────────────────────────────────────────────────
 
     private static void accountMenu(Bank bank, int accountNumber, String pin) {
         while (true) {
@@ -157,10 +155,7 @@ public class Main {
                 }
                 case "4" -> intraBankTransfer(bank, accountNumber, pin);
                 case "5" -> interBankTransfer(bank, accountNumber, pin);
-//                case "6" -> {
-//                    String newPin = updatePin(bank, accountNumber, pin);
-//                    if (newPin != null) pin = newPin;
-//                }
+
                 case "7" -> {
                     System.out.println("Logged out successfully.\n");
                     return;
@@ -170,7 +165,6 @@ public class Main {
         }
     }
 
-    // ── Account operations ────────────────────────────────────────────────────
 
     private static void checkBalance(Bank bank, int accountNumber, String pin) {
         try {
@@ -245,18 +239,4 @@ public class Main {
         }
     }
 
-//    private static String updatePin(Bank bank, int accountNumber, String pin) {
-//        System.out.print("\nEnter current PIN: ");
-//        String currentPin = scanner.nextLine().trim();
-//        System.out.print("Enter new 4-digit PIN: ");
-//        String newPin = scanner.nextLine().trim();
-//        try {
-//            bank.updatePin(accountNumber, currentPin, newPin);
-//            System.out.println("PIN updated successfully!\n");
-//            return newPin;
-//        } catch (InvalidPinException e) {
-//            System.out.println("Error: " + e.getMessage() + "\n");
-//            return null;
-//        }
-//    }
 }
