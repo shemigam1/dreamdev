@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { useLoginMutation } from "../api/auth";
+import { useDispatch } from "react-redux";
+import { setVoter } from "../slice/voterSlice";
 
 export default function LoginForm() {
   const voterLogin = {
@@ -9,6 +11,8 @@ export default function LoginForm() {
   };
 
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const [voterProfile, setvoterProfile] = useState(voterLogin);
   const [login, { isLoading, isError }] = useLoginMutation();
@@ -28,14 +32,23 @@ export default function LoginForm() {
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const { success } = await login(voterProfile).unwrap();
+      const { success, data } = await login(voterProfile).unwrap();
       if (!success) {
         setErrorMsg("Login failed. Please try again.");
         console.log(errorMsg);
 
         return;
       }
-      // localStorage.setItem("token", token);
+      dispatch(
+        setVoter({
+          email: data.email,
+          id: data.id,
+          isLoggedIn: success,
+        }),
+      );
+      if (success) {
+        localStorage.setItem("isLoggedIn", success.toString());
+      }
       // console.log(token);
       navigate("/");
     } catch (error) {}
