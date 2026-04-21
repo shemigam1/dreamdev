@@ -1,14 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router";
+import { useLoginMutation } from "../api/auth";
 
 export default function LoginForm() {
+  const voterLogin = {
+    email: "",
+    password: "",
+  };
+
+  const navigate = useNavigate();
+
+  const [voterProfile, setvoterProfile] = useState(voterLogin);
+  const [login, { isLoading, isError }] = useLoginMutation();
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setvoterProfile((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+    // setUserProfile((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const { success } = await login(voterProfile).unwrap();
+      if (!success) {
+        setErrorMsg("Login failed. Please try again.");
+        console.log(errorMsg);
+
+        return;
+      }
+      // localStorage.setItem("token", token);
+      // console.log(token);
+      navigate("/");
+    } catch (error) {}
+  };
+
   return (
     <>
-      <form action="" className="p-6">
+      <form onSubmit={handleSubmit} className="p-6">
         <div className="flex flex-col gap-2 mb-4">
           <label htmlFor="email" className="text-sm font-medium text-[#9BA9C7]">
             Email
           </label>
           <input
+            onChange={handleChange}
             type="email"
             id="email"
             name="email"
@@ -25,6 +66,7 @@ export default function LoginForm() {
             Password
           </label>
           <input
+            onChange={handleChange}
             type="password"
             id="password"
             name="password"
@@ -34,9 +76,10 @@ export default function LoginForm() {
 
         <button
           type="submit"
+          disabled={isLoading}
           className="w-full bg-[#0357EE] hover:bg-[#0048D1] text-white font-semibold py-3.5 rounded-[10px] transition"
         >
-          Log in
+          {isLoading ? "Logging in..." : "Login"}
         </button>
       </form>
     </>
