@@ -115,9 +115,7 @@ export default function CreateElectionPage() {
           </form>
         </div>
 
-        <p className="mt-4 text-center font-mono text-[11px] text-[#6B7A9E] tracking-[0.04em]">
-          POST /elections/
-        </p>
+        
       </div>
     </div>
   );
