@@ -12,13 +12,13 @@ const voterSlice = createSlice({
   name: "voter",
   initialState,
   reducers: {
-    setVoter: (state, action) => {
+    setVoter: (state, action: PayloadAction<Voter | null>) => {
       state.voter = action.payload;
     },
     clearVoter: (state) => {
       state.voter = null;
     },
-    setLoggedIn: (state, action) => {
+    setLoggedIn: (state, action: PayloadAction<boolean>) => {
       if (state.voter) {
         state.voter.isLoggedIn = action.payload;
       }

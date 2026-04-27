@@ -32,26 +32,25 @@ export default function LoginForm() {
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const { success, data } = await login(voterProfile).unwrap();
+      const { success, data: voter } = await login(voterProfile).unwrap();
+      // const response = await login(voterProfile).unwrap();
       if (!success) {
         setErrorMsg("Login failed. Please try again.");
         console.log(errorMsg);
 
         return;
       }
-      dispatch(
-        setVoter({
-          email: data.email,
-          id: data.id,
-          isLoggedIn: success,
-        }),
-      );
-      if (success) {
-        localStorage.setItem("isLoggedIn", success.toString());
-      }
-      // console.log(token);
+
+      console.log(success, voter);
+
+      localStorage.setItem("voter", JSON.stringify(voter));
+      dispatch(setVoter(voter));
+
+      // console.log(voter);
       navigate("/");
-    } catch (error) {}
+    } catch (error) {
+      setErrorMsg("Something went wrong. Please try again.");
+    }
   };
 
   return (

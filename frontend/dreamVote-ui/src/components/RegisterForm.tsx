@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useRegisterMutation } from "../api/auth";
+import { setVoter } from "../slice/voterSlice";
+import { useDispatch } from "react-redux";
 
 export default function RegisterForm() {
   const voterRegisteration = {
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
   };
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [voterProfile, setvoterProfile] = useState(voterRegisteration);
   const [register, { isLoading, isError }] = useRegisterMutation();
@@ -31,17 +34,28 @@ export default function RegisterForm() {
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const { success } = await register(voterProfile).unwrap();
+      const { success, data: voter } = await register(voterProfile).unwrap();
       if (!success) {
         setErrorMsg("Registration failed. Please try again.");
         console.log(errorMsg);
 
         return;
       }
-      // localStorage.setItem("token", token);
-      // console.log(token);
-      navigate("/");
-    } catch (error) {}
+      dispatch(
+        setVoter({
+          email: voter.email,
+          firstName: voter.firstName,
+          lastName: voter.lastName,
+          voterId: voter.voterId,
+          isLoggedIn: voter.isLoggedIn,
+        }),
+      );
+
+      localStorage.setItem("voter", JSON.stringify(voter));
+      navigate("/auth", { state: { tab: "login" } });
+    } catch (error) {
+      setErrorMsg("Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -49,7 +63,7 @@ export default function RegisterForm() {
       <form onSubmit={handleSubmit} className="p-6">
         <div className="flex flex-col gap-2 mb-4">
           <label
-            htmlFor="firstname"
+            htmlFor="firstName"
             className="text-sm font-medium text-[#9BA9C7]"
           >
             Firstname
@@ -57,15 +71,15 @@ export default function RegisterForm() {
           <input
             onChange={handleChange}
             type="text"
-            id="firstname"
-            name="firstname"
+            id="firstName"
+            name="firstName"
             placeholder="Luffy"
             className="w-full px-3.5 py-3 bg-[#081A3A] border border-[#1A2D5A] rounded-[10px] text-[#F4F5F7] text-sm placeholder:text-[#6B7A9E] outline-none transition focus:border-[#0357EE] focus:ring-2 focus:ring-[#0357EE]/20"
           />
         </div>
         <div className="flex flex-col gap-2 mb-4">
           <label
-            htmlFor="lastname"
+            htmlFor="lastName"
             className="text-sm font-medium text-[#9BA9C7]"
           >
             Lastname
@@ -73,8 +87,8 @@ export default function RegisterForm() {
           <input
             onChange={handleChange}
             type="text"
-            id="lastname"
-            name="lastname"
+            id="lastName"
+            name="lastName"
             placeholder="Monkey D."
             className="w-full px-3.5 py-3 bg-[#081A3A] border border-[#1A2D5A] rounded-[10px] text-[#F4F5F7] text-sm placeholder:text-[#6B7A9E] outline-none transition focus:border-[#0357EE] focus:ring-2 focus:ring-[#0357EE]/20"
           />
@@ -108,6 +122,8 @@ export default function RegisterForm() {
             className="w-full px-3.5 py-3 bg-[#081A3A] border border-[#1A2D5A] rounded-[10px] text-[#F4F5F7] text-sm outline-none transition focus:border-[#0357EE] focus:ring-2 focus:ring-[#0357EE]/20"
           />
         </div>
+
+        {errorMsg && <p className="text-red-400 text-sm mb-3">{errorMsg}</p>}
 
         <button
           type="submit"
