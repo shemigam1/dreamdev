@@ -13,6 +13,7 @@ export type Candidate = {
 
 export type ElectionSummary = {
   id: string;
+  title: string | null;
   createdAt: string;
   active: boolean;
   candidateCount: number;
@@ -21,6 +22,8 @@ export type ElectionSummary = {
 
 export type Election = {
   id: string;
+  title: string | null;
+  description: string | null;
   createdBy: string;
   candidates: Candidate[];
   poll: Record<string, number>;

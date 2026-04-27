@@ -14,12 +14,14 @@ type Candidate = { firstName: string; lastName: string };
 
 type Election = {
   id: string;
+  title: string | null;
+  description: string | null;
   createdBy: string;
   candidates: Candidate[];
   poll: Record<string, number>;
   createdAt: string;
   active: boolean;
-  votes: { voterId: string; candidateLastName: string }[];
+  voteCount: number;
 };
 
 export default function ElectionDetailPage() {
@@ -68,7 +70,7 @@ export default function ElectionDetailPage() {
     );
   }
 
-  const voteCount = election.votes?.length ?? 0;
+  const voteCount = election.voteCount ?? 0;
   const phase = getPhase(election.active, voteCount);
   const isCreator = election.createdBy === voter.voterId;
   const slug = `election-${new Date(election.createdAt).toLocaleDateString("en-GB", { day: "2-digit", month: "short" }).toLowerCase().replace(" ", "-")}-${election.id.slice(-4)}`;
@@ -105,9 +107,25 @@ export default function ElectionDetailPage() {
       <div className="max-w-[680px] mx-auto px-5 py-10">
         <div className="mb-7">
           <PhaseBadge phase={phase} />
-          <h2 className="mt-4 mb-1.5 font-mono text-[22px] font-bold tracking-tight break-all text-[#F4F5F7]">
-            {slug}
-          </h2>
+          {election.title ? (
+            <>
+              <h2 className="mt-4 mb-1.5 text-[26px] font-bold tracking-tight text-[#F4F5F7]">
+                {election.title}
+              </h2>
+              <p className="font-mono text-[11px] text-[#6B7A9E] mb-2 break-all">
+                {slug}
+              </p>
+            </>
+          ) : (
+            <h2 className="mt-4 mb-1.5 font-mono text-[22px] font-bold tracking-tight break-all text-[#F4F5F7]">
+              {slug}
+            </h2>
+          )}
+          {election.description && (
+            <p className="text-sm text-[#9BA9C7] mb-2 whitespace-pre-wrap">
+              {election.description}
+            </p>
+          )}
           <p className="text-sm text-[#9BA9C7]">
             Created{" "}
             {new Date(election.createdAt).toLocaleDateString("en-US", {

@@ -4,13 +4,11 @@ import { useNavigate } from "react-router";
 import type { RootState } from "../store/store";
 import Navbar from "../components/Navbar";
 import PhaseBadge, { getPhase } from "../components/PhaseBadge";
-import {
-  useGetAllElectionsQuery,
-  useCreateElectionMutation,
-} from "../api/election";
+import { useGetAllElectionsQuery } from "../api/election";
 
 type ElectionSummary = {
   id: string;
+  title: string | null;
   createdAt: string;
   active: boolean;
   candidateCount: number;
@@ -50,7 +48,6 @@ export default function HomePage() {
   const { data: response, isLoading } = useGetAllElectionsQuery(undefined, {
     skip: !voter?.isLoggedIn,
   });
-  const [createElection, { isLoading: creating }] = useCreateElectionMutation();
 
   useEffect(() => {
     if (!voter || !voter.isLoggedIn) navigate("/auth");
@@ -65,13 +62,6 @@ export default function HomePage() {
     nomination: elections.filter((e) => getPhase(e.active, e.voteCount) === "nomination").length,
     closed: elections.filter((e) => getPhase(e.active, e.voteCount) === "closed").length,
   };
-
-  async function handleNewElection() {
-    try {
-      const res = await createElection({ voterId: voter!.voterId }).unwrap();
-      if (res.success) navigate(`/elections/${res.data.electionId}`);
-    } catch {}
-  }
 
   const grouped: Record<string, ElectionSummary[]> = {
     voting: elections.filter((e) => getPhase(e.active, e.voteCount) === "voting"),
@@ -93,11 +83,10 @@ export default function HomePage() {
             </p>
           </div>
           <button
-            onClick={handleNewElection}
-            disabled={creating}
-            className="bg-[#0357EE] hover:bg-[#0048D1] text-white text-sm font-semibold px-4 py-2.5 rounded-[10px] transition disabled:opacity-60"
+            onClick={() => navigate("/elections/new")}
+            className="bg-[#0357EE] hover:bg-[#0048D1] text-white text-sm font-semibold px-4 py-2.5 rounded-[10px] transition"
           >
-            {creating ? "Creating..." : "+ New election"}
+            + New election
           </button>
         </div>
 
@@ -166,9 +155,20 @@ function ElectionCard({
     >
       <div className="flex items-center justify-between gap-4">
         <div className="flex-1 min-w-0">
-          <div className="font-mono text-[13px] text-[#9BA9C7] mb-2.5 truncate">
-            {slug}
-          </div>
+          {election.title ? (
+            <>
+              <div className="text-[15px] font-semibold tracking-tight truncate">
+                {election.title}
+              </div>
+              <div className="font-mono text-[11px] text-[#6B7A9E] mb-2.5 truncate">
+                {slug}
+              </div>
+            </>
+          ) : (
+            <div className="font-mono text-[13px] text-[#9BA9C7] mb-2.5 truncate">
+              {slug}
+            </div>
+          )}
           <div className="flex gap-5 items-center flex-wrap">
             {phase === "voting" && (
               <>
