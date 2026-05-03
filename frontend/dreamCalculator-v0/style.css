@@ -77,6 +77,7 @@ footer.bottom-actions {
 
 /* calc container */
 body {
+  /* width: 460px; */
   background-color: var(--color-bg);
   font-family: var(--font-main);
   min-height: 100dvh;
@@ -246,7 +247,7 @@ body {
 
 .add-item-bar input {
   flex: 1;
-  padding: 10px 12px;
+  padding: 5px 6px;
   border-radius: 10px;
   border: 1.5px solid var(--color-border);
   font-size: 14px;
@@ -261,7 +262,7 @@ body {
 }
 
 #add-item-btn {
-  padding: 10px 14px;
+  padding: 5px 7px;
   border-radius: 10px;
   border: none;
   background-color: var(--color-primary);
