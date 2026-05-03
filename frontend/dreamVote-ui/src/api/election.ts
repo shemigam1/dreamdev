@@ -9,17 +9,22 @@ export const electionApi = createApi({
   endpoints: (builder) => ({
     getAllElections: builder.query({
       query: () => "/elections",
-      providesTags: ["Elections"],
+      providesTags: [{ type: "Elections", id: "LIST" }],
     }),
     getElectionById: builder.query({
       query: (electionId: string) => `/elections/${electionId}`,
+      providesTags: (_result, _error, electionId) => [
+        { type: "Elections", id: electionId },
+      ],
     }),
     getElectionsByCreator: builder.query({
       query: (voterId: string) => `/elections/creator/${voterId}`,
+      providesTags: [{ type: "Elections", id: "LIST" }],
     }),
     createElection: builder.mutation({
       query: (body) => ({ url: "/elections/", method: "POST", body }),
-      invalidatesTags: ["Elections"],
+      // New election affects every list view but no specific existing ID.
+      invalidatesTags: [{ type: "Elections", id: "LIST" }],
     }),
     activateElection: builder.mutation({
       query: ({ electionId, ...body }) => ({
@@ -27,7 +32,11 @@ export const electionApi = createApi({
         method: "PATCH",
         body,
       }),
-      invalidatesTags: ["Elections"],
+      // Affects this election's detail AND any list view that shows phase.
+      invalidatesTags: (_r, _e, { electionId }) => [
+        { type: "Elections", id: electionId },
+        { type: "Elections", id: "LIST" },
+      ],
     }),
     deactivateElection: builder.mutation({
       query: ({ electionId, ...body }) => ({
@@ -35,18 +44,33 @@ export const electionApi = createApi({
         method: "PATCH",
         body,
       }),
-      invalidatesTags: ["Elections"],
+      invalidatesTags: (_r, _e, { electionId }) => [
+        { type: "Elections", id: electionId },
+        { type: "Elections", id: "LIST" },
+      ],
     }),
     nominateCandidate: builder.mutation({
       query: (body) => ({ url: "/elections/nominate", method: "POST", body }),
-      invalidatesTags: ["Elections"],
+      // Adds a candidate -> only the affected election's queries need to
+      // refetch (detail + candidates + polls); list views care because the
+      // candidateCount changes.
+      invalidatesTags: (_r, _e, { electionId }) => [
+        { type: "Elections", id: electionId },
+        { type: "Elections", id: "LIST" },
+      ],
     }),
     vote: builder.mutation({
       query: (body) => ({ url: "/elections/vote", method: "POST", body }),
-      invalidatesTags: ["Elections"],
+      invalidatesTags: (_r, _e, { electionId }) => [
+        { type: "Elections", id: electionId },
+        { type: "Elections", id: "LIST" },
+      ],
     }),
     getPolls: builder.query({
       query: (electionId: string) => `/elections/${electionId}/polls`,
+      providesTags: (_result, _error, electionId) => [
+        { type: "Elections", id: electionId },
+      ],
     }),
     getAllCandidates: builder.query({
       query: (electionId: string) => ({
@@ -54,6 +78,9 @@ export const electionApi = createApi({
         method: "GET",
         body: { electionId },
       }),
+      providesTags: (_result, _error, electionId) => [
+        { type: "Elections", id: electionId },
+      ],
     }),
   }),
 });

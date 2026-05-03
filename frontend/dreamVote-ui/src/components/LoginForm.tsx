@@ -15,7 +15,7 @@ export default function LoginForm() {
   const dispatch = useDispatch();
 
   const [voterProfile, setvoterProfile] = useState(voterLogin);
-  const [login, { isLoading, isError }] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

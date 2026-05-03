@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import LoginForm from "../components/LoginForm";
 import RegisterForm from "../components/RegisterForm";
@@ -6,8 +6,19 @@ import Polls from "../components/assets/Polls";
 
 function AuthPage() {
   const location = useLocation();
-  const initialTab = location.state?.tab === "login" ? "login" : "login";
+  const initialTab: "login" | "signup" =
+    location.state?.tab === "signup" ? "signup" : "login";
   const [tab, setTab] = useState<"login" | "signup">(initialTab);
+  const justRegistered = location.state?.justRegistered === true;
+
+  // Navigations to /auth from inside the app (e.g. RegisterForm sending the
+  // user to the login tab after a successful sign-up) don't unmount this
+  // component, so useState's initial value isn't re-evaluated. Sync the tab
+  // explicitly when location.state changes.
+  useEffect(() => {
+    if (location.state?.tab === "signup") setTab("signup");
+    else if (location.state?.tab === "login") setTab("login");
+  }, [location.state]);
 
   return (
     <div className="bg-[#02102D] text-[#F4F5F7] min-h-screen grid lg:grid-cols-2">
@@ -52,6 +63,13 @@ function AuthPage() {
               Register
             </button>
           </div>
+          {justRegistered && tab === "login" && (
+            <div className="mx-1.5 mt-2 px-3.5 py-2.5 bg-[rgba(80,200,140,0.10)] border border-[rgba(80,200,140,0.4)] rounded-lg">
+              <p className="text-sm text-[#7FE1A8]">
+                Account created. Please log in to continue.
+              </p>
+            </div>
+          )}
           {tab === "login" ? <LoginForm /> : <RegisterForm />}
         </div>
       </div>

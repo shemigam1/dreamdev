@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useRegisterMutation } from "../api/auth";
-import { setVoter } from "../slice/voterSlice";
-import { useDispatch } from "react-redux";
 
 export default function RegisterForm() {
   const voterRegisteration = {
@@ -13,10 +11,9 @@ export default function RegisterForm() {
   };
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const [voterProfile, setvoterProfile] = useState(voterRegisteration);
-  const [register, { isLoading, isError }] = useRegisterMutation();
+  const [register, { isLoading }] = useRegisterMutation();
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,34 +24,23 @@ export default function RegisterForm() {
         [name]: value,
       };
     });
-
-    // console.log(voterProfile);
   };
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setErrorMsg("");
     try {
-      const { success, data: voter } = await register(voterProfile).unwrap();
+      const { success, data } = await register(voterProfile).unwrap();
       if (!success) {
-        setErrorMsg("Registration failed. Please try again.");
-        console.log(errorMsg);
-
+        setErrorMsg(typeof data === "string" ? data : "Registration failed.");
         return;
       }
-      dispatch(
-        setVoter({
-          email: voter.email,
-          firstName: voter.firstName,
-          lastName: voter.lastName,
-          voterId: voter.voterId,
-          isLoggedIn: voter.isLoggedIn,
-        }),
-      );
-
-      localStorage.setItem("voter", JSON.stringify(voter));
-      navigate("/auth", { state: { tab: "login" } });
-    } catch (error) {
-      setErrorMsg("Something went wrong. Please try again.");
+      navigate("/auth", { state: { tab: "login", justRegistered: true } });
+    } catch (error: any) {
+      // RTK Query wraps non-2xx responses; the server's ApiResponse body is
+      // at error.data, with the human message in error.data.data.
+      const apiMessage = error?.data?.data;
+      setErrorMsg(typeof apiMessage === "string" ? apiMessage : "Something went wrong. Please try again.");
     }
   };
 
