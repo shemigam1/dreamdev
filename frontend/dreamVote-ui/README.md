@@ -1,73 +1,112 @@
-# React + TypeScript + Vite
+# dreamVote UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React SPA for the dreamVote voting application. Voters register, create
+elections, nominate candidates, and cast votes.
 
-Currently, two official plugins are available:
+**Live:** https://dreamvote.vercel.app
+**Backend:** https://dreamvote-server.onrender.com
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech stack
 
-## React Compiler
+- **React 19** + **TypeScript** + **Vite**
+- **Redux Toolkit** (RTK Query for API calls, slices for app state)
+- **React Router** for client-side routing
+- **Tailwind CSS** for styling
+- **nginx** (only inside the Docker image; Vercel serves the SPA from its
+  CDN, no nginx in that path)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Prerequisites
 
-## Expanding the ESLint configuration
+- **Node.js 22+**
+- **pnpm** — install with `corepack enable && corepack prepare pnpm@9 --activate`
+- A running backend (either local — see the
+  [server repo](https://github.com/shemigam1/dreamVote) — or the deployed one)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Local development
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 1. Install dependencies
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```sh
+pnpm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Configure the API base URL
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Create `.env` in the repo root (already there if you cloned a working copy):
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+VITE_APP_BASE_URL=http://localhost:8080
+```
+
+Point it wherever the backend is reachable. Common values:
+
+| Backend running | `VITE_APP_BASE_URL` |
+|---|---|
+| Locally on `localhost:8080` | `http://localhost:8080` |
+| Deployed | `https://dreamvote-server.onrender.com` |
+
+### 3. Run the dev server
+
+```sh
+pnpm dev
+```
+
+Vite serves at `http://localhost:5173` with hot-reload.
+
+## Docker
+
+A `Dockerfile` is included for containerized deploys (Render, etc.). The
+Vercel deploy does not use it.
+
+```sh
+# Build
+docker build -t dreamvote-ui:dev .
+
+# Run, pointing the SPA at any backend URL
+docker run --rm -p 8080:8080 \
+  -e VITE_APP_BASE_URL=https://dreamvote-server.onrender.com \
+  dreamvote-ui:dev
+```
+
+The image uses a runtime-config-injection pattern: `VITE_APP_BASE_URL` is
+substituted into the bundled JS at container startup, so the same image
+works in any environment by passing a different env var.
+
+Visit `http://localhost:8080`.
+
+## Useful scripts
+
+```sh
+pnpm dev        # Vite dev server (HMR)
+pnpm build      # tsc -b && vite build -> outputs to dist/
+pnpm lint       # ESLint
+pnpm preview    # Preview the production build locally
+```
+
+## Project structure
+
+```
+src/
+├── api/          # RTK Query API slices (auth, election)
+├── components/   # Reusable UI components
+├── routes/       # Route definitions
+├── slice/        # Redux slices (voter, election)
+├── store/        # Redux store setup
+├── views/        # Page-level components
+└── App.tsx       # Router root
+```
+
+## Deployment
+
+The app is deployed to **Vercel** (https://dreamvote.vercel.app). Vercel
+auto-detects Vite, runs `pnpm install && pnpm build`, and serves `dist/`
+from its CDN.
+
+Required environment variable in Vercel:
+
+```
+VITE_APP_BASE_URL=https://dreamvote-server.onrender.com
+```
+
+The same repo's `Dockerfile` lets you also deploy to Render (or any
+container host) if you prefer a Docker-based deployment.
